@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-Timezone Clock</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      font-family: sans-serif;
+      background-color: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    .clock-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .clock {
+      background: #222;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 10px #000;
+    }
+    .location {
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+    .time {
+      font-size: 4em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="clock" id="London">
+      <div class="location">England</div>
+      <div class="time">--:--</div>
+    </div>
+    <div class="clock" id="Sydney">
+      <div class="location">Australia</div>
+      <div class="time">--:--</div>
+    </div>
+  </div>
+
+  <script>
+    const timezones = {
+      "London": "Europe/London",
+      "Sydney": "Australia/Sydney"
+    };
+
+    function updateClocks() {
+      for (let city in timezones) {
+        const now = new Date();
+        const time = now.toLocaleTimeString("en-US", {
+          timeZone: timezones[city],
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+
+        document.querySelector(`#${city} .time`).textContent = time;
+      }
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+  </script>
+</body>
+</html>
